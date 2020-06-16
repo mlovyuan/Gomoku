@@ -13,6 +13,42 @@ namespace Gomoku
         private readonly static int NodeRadius = 12;
         private readonly static int NodeDistance = 75;
         private readonly static Point NoMatch = new Point(-1, -1);
+        private Piece[,] pieces = new Piece[9, 9];
+
+        // 檢查該位置是否有重複落子，若無才可放
+        public Piece PlacePiece(int x, int y, PieceType type)
+        {
+            // x, y是實際位置， nodeLocation內的則是棋盤上人為給的位置
+            Point nodeLocation = FindNode(x, y);
+            if (nodeLocation == NoMatch)
+            {
+                return null;
+            }
+            // 看棋子是不是有重複
+            if (pieces[nodeLocation.X, nodeLocation.Y] != null)
+            {
+                return null;
+            }
+
+            Point formPosition = ConvertToFormPosition(nodeLocation);
+            if (type == PieceType.Black)
+            {
+                pieces[nodeLocation.X, nodeLocation.Y] = new BlackPiece(formPosition.X, formPosition.Y);
+            }
+            else if (type == PieceType.White)
+            {
+                pieces[nodeLocation.X, nodeLocation.Y] = new WhitePiece(formPosition.X, formPosition.Y);
+            }
+            return pieces[nodeLocation.X, nodeLocation.Y];
+        }
+
+        private Point ConvertToFormPosition(Point nodeLocation)
+        {
+            Point formPosition = new Point();
+            formPosition.X = nodeLocation.X * NodeDistance + Boundary;
+            formPosition.Y = nodeLocation.Y * NodeDistance + Boundary;
+            return formPosition;
+        }
 
         // 檢查位置是否能被落子
         public bool Placed(int x, int y)

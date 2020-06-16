@@ -35,7 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Gomoku.Properties.Resources.board;
-            this.ClientSize = new System.Drawing.Size(757, 685);
+            this.ClientSize = new System.Drawing.Size(751, 685);
             this.Name = "Form1";
             this.Text = "五子棋";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);

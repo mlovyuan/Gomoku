@@ -12,35 +12,39 @@ namespace Gomoku
 {
     public partial class Form1 : Form
     {
-        private bool Black;
-        private Board Board;
+        private bool black;
+        private Board board;
+        private PieceType nextType;
         public Form1()
         {
             InitializeComponent();
-            Black = true;
-            Board = new Board();
+            black = true;
+            board = new Board();
+            nextType = PieceType.Black;
         }
 
         // 按下滑鼠
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-
-            if (Black)
+            Piece piece = board.PlacePiece(e.X, e.Y, nextType);
+            if (piece != null)
             {
-                this.Controls.Add(new BlackPiece(e.X, e.Y));
-                Black = false;
-            }
-            else
-            {
-                this.Controls.Add(new WhitePiece(e.X, e.Y));
-                Black = true;
+                this.Controls.Add(piece);
+                if (nextType == PieceType.Black)
+                {
+                    nextType = PieceType.White;
+                }
+                else if (nextType == PieceType.White)
+                {
+                    nextType = PieceType.Black;
+                }
             }
         }
 
         // 滑鼠移動時
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Board.Placed(e.X, e.Y))
+            if (board.Placed(e.X, e.Y))
             {
                 this.Cursor = Cursors.Hand;
             }
